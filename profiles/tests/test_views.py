@@ -16,14 +16,17 @@ def test_profile_index_view():
     response = client.get(path)
 
     assert response.status_code == 200
-    assertTemplateUsed(response, "index.html")
+    assertTemplateUsed(response, 'profiles/index.html')
 
 
 @pytest.mark.django_db
 def test_profile_view():
     client = Client()
-    user_for_test = User(username='test_user')
-    Profile.objects.create(user_for_test, 'paris')
+    user_for_test = User()
+    user_for_test.username = 'test_user'
+    profile_for_test = Profile()
+    profile_for_test.user = user_for_test
+    profile_for_test.favorite_city = 'paris'
 
     path = reverse('profile', kwargs={'username': 'test_user'})
 
@@ -36,6 +39,6 @@ def test_profile_view():
 
     assert response.status_code == 200
     assert assertion_check == soup_content[0].get_text()
-    assertTemplateUsed(response, "profile.html")
+    assertTemplateUsed(response, "profiles/profile.html")
 
 
