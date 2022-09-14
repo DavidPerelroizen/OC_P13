@@ -24,16 +24,19 @@ def test_profile_view():
     client = Client()
     user_for_test = User()
     user_for_test.username = 'test_user'
+    user_for_test.save()
     profile_for_test = Profile()
     profile_for_test.user = user_for_test
     profile_for_test.favorite_city = 'paris'
+    profile_for_test.save()
 
     path = reverse('profile', kwargs={'username': 'test_user'})
 
     response = client.get(path)
 
-    soup = BeautifulSoup(response.data, features="html.parser")
+    soup = BeautifulSoup(response.content, features="html.parser")
     soup_content = soup.find_all("h1")
+    print(soup_content)
 
     assertion_check = 'test_user'
 
