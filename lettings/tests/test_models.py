@@ -18,6 +18,7 @@ def test_address_model_creation():
 
     assert str(address_for_test) == expected_value
 
+
 @pytest.mark.django_db
 def test_letting_model_creation():
     address_for_test = Address()
