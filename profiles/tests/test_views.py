@@ -43,5 +43,3 @@ def test_profile_view():
     assert response.status_code == 200
     assert assertion_check == soup_content[0].get_text()
     assertTemplateUsed(response, "profiles/profile.html")
-
-

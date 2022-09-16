@@ -1,5 +1,5 @@
 import pytest
-from django.urls import reverse, resolve
+from django.urls import reverse
 from django.test import Client
 from lettings.models import Letting, Address
 from pytest_django.asserts import assertTemplateUsed
