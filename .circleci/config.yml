@@ -16,7 +16,7 @@ jobs:
             pip install -r requirements.txt
       - run:
           name: Pytest launch
-          command: python pytest
+          command: pytest
       - store_test_results:
           path: Python-OC-Lettings-FR
 
