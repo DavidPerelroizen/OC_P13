@@ -17,8 +17,6 @@ jobs:
       - run:
           name: Pytest launch
           command: pytest
-      - store_test_results:
-          path: Python-OC-Lettings-FR
 
 workflows:
   on_commit:
