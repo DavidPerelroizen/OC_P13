@@ -24,6 +24,9 @@ jobs:
             pytest
       - store_test_results:
           path: test-results
+      - run:
+          name: Flake 8
+          command: flake8
 
   heroku_deploy:
     docker:
