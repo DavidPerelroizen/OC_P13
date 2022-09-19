@@ -20,3 +20,8 @@ jobs:
           command: python pytest
       - store_test_results:
           path: test-results
+
+workflows:
+  on_commit:
+    jobs:
+      - build_and_test
