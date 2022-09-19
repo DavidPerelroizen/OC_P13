@@ -20,25 +20,7 @@ jobs:
       - store_test_results:
           path: test-result
 
-  deploy:
-    docker:
-      - image: python
-        auth:
-          username: davidperelroizen
-          password: Davidou2410$
-
-    steps:
-
-
 workflows:
   on_commit:
     jobs:
       - build_and_test
-'''
-      - deploy:
-          - requires:
-              - build_and_test
-              filters:
-                branches:
-                  only: master
-'''
