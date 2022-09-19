@@ -40,7 +40,8 @@ workflows:
     jobs:
       - build_and_test
       - heroku_deploy:
-          requires: build_and_test
+          requires:
+            - build_and_test
           filters:
             branches:
               only: master
