@@ -18,7 +18,7 @@ jobs:
           name: Pytest launch
           command: pytest
       - store_test_results:
-          path: test-result
+          path: test-results
 
 workflows:
   on_commit:
