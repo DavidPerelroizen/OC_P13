@@ -17,5 +17,6 @@ jobs:
             pip install -r requirements.txt
       - run:
           name: Pytest launch
-          command: run python pytest
-      - store_test_results
+          command: python pytest
+      - store_test_results:
+          path: test-results
