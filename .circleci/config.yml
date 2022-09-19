@@ -17,7 +17,5 @@ jobs:
             pip install -r requirements.txt
       - run:
           name: Pytest launch
-          command: |
-            .\venv\Scripts\Activate.ps1
-            pytest
+          command: pytest
       - store_test_results
