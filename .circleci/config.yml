@@ -2,7 +2,10 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/python
+      - image: cimg/python:latest
+        auth:
+          username: davidperelroizen
+          password: Davidou2410$
 
     steps:
       - checkout
