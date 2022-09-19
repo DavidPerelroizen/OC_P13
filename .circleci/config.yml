@@ -34,9 +34,11 @@ workflows:
   on_commit:
     jobs:
       - build_and_test
+'''
       - deploy:
           - requires:
               - build_and_test
               filters:
                 branches:
                   only: master
+'''
