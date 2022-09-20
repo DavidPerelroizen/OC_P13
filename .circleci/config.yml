@@ -27,6 +27,24 @@ jobs:
       - store_test_results:
           path: test-results
 
+  dockerization:
+    docker:
+      - image: python
+        auth:
+          username: davidperelroizen
+          password: Davidou2410$
+      steps:
+        - run:
+            name: Create Docker image
+            command: |
+              docker build -t oc-lettings-site-docker-build .
+              docker run -d -p 8000:8000 oc-lettings-site-docker-build
+        - run:
+            name: Push Docker image to Docker Hub
+            command: |
+              docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:latest
+              docker push davidperelroizen/oc-lettings-site-docker-build:latest
+
   heroku_deploy:
     docker:
       - image: python
@@ -41,9 +59,13 @@ workflows:
   on_commit:
     jobs:
       - build_and_test
+      - dockerization:
+          requires:
+            - build_and_test
       - heroku_deploy:
           requires:
             - build_and_test
+            - dockerization
           filters:
             branches:
               only: master
