@@ -38,6 +38,7 @@ jobs:
       - run:
           name: Create Docker image
           command: |
+            dockerd
             docker build -t oc-lettings-site-docker-build .
             docker run -d -p 8000:8000 oc-lettings-site-docker-build
       - run:
