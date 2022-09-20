@@ -34,6 +34,7 @@ jobs:
           username: davidperelroizen
           password: Davidou2410$
     steps:
+      - checkout
       - run:
           name: Create Docker image
           command: |
