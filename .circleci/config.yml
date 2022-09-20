@@ -29,7 +29,7 @@ jobs:
 
   dockerization:
     docker:
-      - image: python
+      - image: docker:17.05.0-ce-git
         auth:
           username: davidperelroizen
           password: Davidou2410$
