@@ -65,6 +65,9 @@ workflows:
       - dockerization:
           requires:
             - build_and_test
+          filters:
+            branches:
+              only: master
       - heroku_deploy:
           requires:
             - build_and_test
