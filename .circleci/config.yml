@@ -56,6 +56,7 @@ jobs:
           username: davidperelroizen
           password: Davidou2410$
     steps:
+      - checkout
       - heroku/deploy-via-git:
           force: true
 
