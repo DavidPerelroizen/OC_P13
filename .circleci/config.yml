@@ -9,8 +9,8 @@ jobs:
     docker:
       - image: python
         auth:
-          username: davidperelroizen
-          password: Davidou2410$
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:
@@ -32,8 +32,8 @@ jobs:
     docker:
       - image: docker:17.05.0-ce-git
         auth:
-          username: davidperelroizen
-          password: Davidou2410$
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - setup_remote_docker
@@ -45,6 +45,7 @@ jobs:
       - run:
           name: Push Docker image to Docker Hub
           command: |
+            echo “$DOCKERHUB_PASSWORD” | docker login -u “$DOCKERHUB_USERNAME” — password-stdin
             docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:latest
             docker push davidperelroizen/oc-lettings-site-docker-build:latest
 
@@ -52,8 +53,8 @@ jobs:
     docker:
       - image: python
         auth:
-          username: davidperelroizen
-          password: Davidou2410$
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - heroku/deploy-via-git:
