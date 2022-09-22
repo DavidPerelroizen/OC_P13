@@ -23,7 +23,7 @@ jobs:
           command: |
             mkdir test-results
             pytest
-            # flake8
+            flake8
       - store_test_results:
           path: test-results
 
