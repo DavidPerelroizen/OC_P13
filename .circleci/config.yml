@@ -36,6 +36,7 @@ jobs:
           password: Davidou2410$
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Create Docker image
           command: |
