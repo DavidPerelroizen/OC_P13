@@ -27,25 +27,26 @@ jobs:
       - store_test_results:
           path: test-results
 
-  dockerization:
-    docker:
-      - image: docker:17.05.0-ce-git
-        auth:
-          username: davidperelroizen
-          password: Davidou2410$
-    steps:
-      - checkout
-      - run:
-          name: Create Docker image
-          command: |
-            systemctl start docker
-            docker build -t oc-lettings-site-docker-build .
-            docker run -d -p 8000:8000 oc-lettings-site-docker-build
-      - run:
-          name: Push Docker image to Docker Hub
-          command: |
-            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:latest
-            docker push davidperelroizen/oc-lettings-site-docker-build:latest
+
+#  dockerization:
+ #   docker:
+  #    - image: docker:17.05.0-ce-git
+   #     auth:
+    #      username: davidperelroizen
+     #     password: Davidou2410$
+    #steps:
+     # - checkout
+      #- run:
+       #   name: Create Docker image
+        #  command: |
+         #   systemctl start docker
+          #  docker build -t oc-lettings-site-docker-build .
+           # docker run -d -p 8000:8000 oc-lettings-site-docker-build
+     # - run:
+      #    name: Push Docker image to Docker Hub
+       #   command: |
+        #    docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:latest
+         #   docker push davidperelroizen/oc-lettings-site-docker-build:latest
 
   heroku_deploy:
     docker:
@@ -61,16 +62,16 @@ workflows:
   on_commit:
     jobs:
       - build_and_test
-      - dockerization:
-          requires:
-            - build_and_test
-          filters:
-            branches:
-              only: master
+      #- dockerization:
+       #   requires:
+        #    - build_and_test
+         # filters:
+          #  branches:
+           #   only: master
       - heroku_deploy:
           requires:
             - build_and_test
-            - dockerization
+           # - dockerization
           filters:
             branches:
               only: master
