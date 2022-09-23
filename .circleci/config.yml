@@ -1,0 +1,78 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@2.1.1
+  heroku: circleci/heroku@1.2.6
+
+jobs:
+  build_and_test:
+    docker:
+      - image: python
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - run:
+          name: Install python dependencies in a virtual environment
+          command: |
+            python3 -m venv venv
+            pip install -r requirements.txt
+      - run:
+          name: Pytest launch
+          command: |
+            mkdir test-results
+            pytest
+            flake8
+      - store_test_results:
+          path: test-results
+
+
+  dockerization:
+    docker:
+      - image: docker:17.05.0-ce-git
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Create Docker image
+          command: |
+            docker build -t oc-lettings-site-docker-build .
+            docker run -d -p 8000:8000 oc-lettings-site-docker-build
+      - run:
+          name: Push Docker image to Docker Hub
+          command: |
+            docker login -p $DOCKERHUB_PASSWORD -u $DOCKERHUB_USERNAME
+            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:latest
+            docker push davidperelroizen/oc-lettings-site-docker-build:latest
+  heroku_deploy:
+    docker:
+      - image: python
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - heroku/deploy-via-git:
+          force: true
+
+workflows:
+  on_commit:
+    jobs:
+      - build_and_test
+      - dockerization:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: master
+      - heroku_deploy:
+          requires:
+            - build_and_test
+            - dockerization
+          filters:
+            branches:
+              only: master
