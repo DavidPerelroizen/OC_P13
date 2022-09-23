@@ -14,4 +14,3 @@ def test_profile_index_view():
 
     assert response.status_code == 200
     assertTemplateUsed(response, 'oc_lettings_site_base/index.html')
-    assert 1 == 2
