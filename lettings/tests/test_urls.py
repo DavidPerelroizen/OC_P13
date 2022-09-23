@@ -23,7 +23,6 @@ def test_letting_url():
 
     assert path == '/lettings/1/'
     assert resolve(path).view_name == 'letting'
-    assert 1 == 2
 
 
 @pytest.mark.django_db
