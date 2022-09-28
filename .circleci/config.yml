@@ -34,10 +34,10 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
+      - hash: git log -1 --pretty=%h
     steps:
       - checkout
       - setup_remote_docker
-      - echo "$TAG = git log -1 --pretty=%h"
       - run:
           name: Create Docker image
           command: |
@@ -47,8 +47,8 @@ jobs:
           name: Push Docker image to Docker Hub
           command: |
             docker login -p $DOCKERHUB_PASSWORD -u $DOCKERHUB_USERNAME
-            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:$TAG
-            docker push davidperelroizen/oc-lettings-site-docker-build:latest
+            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:hash
+            docker push davidperelroizen/oc-lettings-site-docker-build:hash
 
   heroku_deploy:
     docker:
