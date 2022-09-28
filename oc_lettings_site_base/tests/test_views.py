@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 @pytest.mark.django_db
 def test_profile_index_view():
     client = Client()
-    path = reverse('index')
+    path = reverse('oc-lettings-site-base:index')
 
     response = client.get(path)
 
