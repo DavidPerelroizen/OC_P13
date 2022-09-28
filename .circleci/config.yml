@@ -46,7 +46,7 @@ jobs:
           name: Push Docker image to Docker Hub
           command: |
             docker login -p $DOCKERHUB_PASSWORD -u $DOCKERHUB_USERNAME
-            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:$$(git log -1 --pretty=%h)
+            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:$$"git log -1 --pretty=%h"
             docker push davidperelroizen/oc-lettings-site-docker-build:latest
 
   heroku_deploy:
