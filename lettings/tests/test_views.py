@@ -27,13 +27,12 @@ def test_letting_view():
     assert str(letting_for_test) == expected_value
 
     client = Client()
-    path = reverse('letting', kwargs={'letting_id': letting_for_test.id})
+    path = reverse('lettings:letting', kwargs={'letting_id': letting_for_test.id})
 
     response = client.get(path)
 
     soup = BeautifulSoup(response.content, features="html.parser")
     soup_content = soup.find_all("h1")
-    print(soup_content)
 
     assertion_check = letting_for_test.title
 
@@ -45,7 +44,7 @@ def test_letting_view():
 @pytest.mark.django_db
 def test_lettings_index_view():
     client = Client()
-    path = reverse('lettings_index')
+    path = reverse('lettings:index')
 
     response = client.get(path)
 

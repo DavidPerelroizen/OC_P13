@@ -19,16 +19,16 @@ def test_letting_url():
     letting_for_test.address = address_for_test
     letting_for_test.save()
 
-    path = reverse('letting', kwargs={'letting_id': letting_for_test.id})
+    path = reverse('lettings:letting', kwargs={'letting_id': letting_for_test.id})
 
     assert path == '/lettings/1/'
-    assert resolve(path).view_name == 'letting'
+    assert resolve(path).view_name == 'lettings:letting'
 
 
 @pytest.mark.django_db
 def test_lettings_index_url():
 
-    path = reverse('lettings_index')
+    path = reverse('lettings:index')
 
     assert path == '/lettings/'
-    assert resolve(path).view_name == 'lettings_index'
+    assert resolve(path).view_name == 'lettings:index'
