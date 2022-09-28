@@ -4,7 +4,7 @@ orbs:
   python: circleci/python@2.1.1
   heroku: circleci/heroku@1.2.6
 
-TAG := $$(git log -1 --pretty=%h)
+- TAG = "$$(git log -1 --pretty=%h)"
 jobs:
   build_and_test:
     docker:
