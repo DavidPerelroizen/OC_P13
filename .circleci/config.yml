@@ -37,7 +37,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - $TAG = git log -1 --pretty=%h
+      - echo "$TAG = git log -1 --pretty=%h"
       - run:
           name: Create Docker image
           command: |
