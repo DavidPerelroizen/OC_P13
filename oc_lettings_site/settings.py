@@ -6,6 +6,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+IS_HEROKU = "DYNO" in os.environ
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -14,9 +15,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if not IS_HEROKU:
+    DEBUG = True
 
-ALLOWED_HOSTS = ['oc-lettings-111.herokuapp.com', '127.0.0.1']
+if IS_HEROKU:
+    ALLOWED_HOSTS = ['oc-lettings-111.herokuapp.com']
+else:
+    ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -69,25 +74,25 @@ WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
+if not IS_HEROKU:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'db4kchg2cjno82',
+            'USER': 'xrzsfhcxpwxrel',
+            'PASSWORD': '3edc71c36ce96e9dbc7bd67adf2df5702eade3372de8cf7a8424af43f63eb5b8',
+            'HOST': 'ec2-54-75-26-218.eu-west-1.compute.amazonaws.com',
+            'PORT': '5432',
+        }
+    }
 
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db4kchg2cjno82',
-        'USER': 'xrzsfhcxpwxrel',
-        'PASSWORD': '3edc71c36ce96e9dbc7bd67adf2df5702eade3372de8cf7a8424af43f63eb5b8',
-        'HOST': 'ec2-54-75-26-218.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
-    }
-}
-'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
