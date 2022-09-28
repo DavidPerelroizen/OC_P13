@@ -4,7 +4,6 @@ orbs:
   python: circleci/python@2.1.1
   heroku: circleci/heroku@1.2.6
 
-- TAG = "$$(git log -1 --pretty=%h)"
 jobs:
   build_and_test:
     docker:
@@ -38,6 +37,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - $TAG = "$$(git log -1 --pretty=%h)"
       - run:
           name: Create Docker image
           command: |
@@ -47,7 +47,7 @@ jobs:
           name: Push Docker image to Docker Hub
           command: |
             docker login -p $DOCKERHUB_PASSWORD -u $DOCKERHUB_USERNAME
-            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:${TAG}
+            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:$TAG
             docker push davidperelroizen/oc-lettings-site-docker-build:latest
 
   heroku_deploy:
