@@ -24,7 +24,7 @@ else:
 if IS_HEROKU:
     ALLOWED_HOSTS = ['oc-lettings-111.herokuapp.com']
 else:
-    ALLOWED_HOSTS = ['127.0.0.1']
+    ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 
 
 # Application definition
