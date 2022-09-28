@@ -85,6 +85,7 @@ if not IS_HEROKU:
         }
     }
 else:
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
