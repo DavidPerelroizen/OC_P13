@@ -48,5 +48,11 @@ def test_lettings_index_view():
 
     response = client.get(path)
 
+    soup = BeautifulSoup(response.content, features="html.parser")
+    soup_content = soup.find_all("h1")
+
+    assertion_check = 'Lettings'
+
     assert response.status_code == 200
     assertTemplateUsed(response, 'lettings/index.html')
+    assert assertion_check == soup_content[0].get_text()
