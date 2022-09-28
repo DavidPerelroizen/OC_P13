@@ -1,5 +1,10 @@
 version: 2.1
 
+parameters:
+  image-tag:
+    type: string
+    default: "latest"
+
 orbs:
   python: circleci/python@2.1.1
   heroku: circleci/heroku@1.2.6
@@ -34,6 +39,8 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
+    environment:
+      IMAGETAG: << pipeline.git.tag >>
     steps:
       - checkout
       - setup_remote_docker
@@ -46,8 +53,8 @@ jobs:
           name: Push Docker image to Docker Hub
           command: |
             docker login -p $DOCKERHUB_PASSWORD -u $DOCKERHUB_USERNAME
-            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:<< pipeline.git.tag >>
-            docker push davidperelroizen/oc-lettings-site-docker-build:<< pipeline.git.tag >>
+            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:${IMAGETAG}
+            docker push davidperelroizen/oc-lettings-site-docker-build:${IMAGETAG}
 
   heroku_deploy:
     docker:
