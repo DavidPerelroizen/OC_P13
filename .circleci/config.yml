@@ -40,7 +40,7 @@ jobs:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
     environment:
-      IMAGETAG: << pipeline.git.tag >>
+      IMAGETAG: pipeline.git.tag
     steps:
       - checkout
       - setup_remote_docker
