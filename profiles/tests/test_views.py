@@ -11,12 +11,18 @@ from bs4 import BeautifulSoup
 @pytest.mark.django_db
 def test_profile_index_view():
     client = Client()
-    path = reverse('profiles_index')
+    path = reverse('profiles:index')
 
     response = client.get(path)
 
+    soup = BeautifulSoup(response.content, features="html.parser")
+    soup_content = soup.find_all("h1")
+
+    assertion_check = 'Profiles'
+
     assert response.status_code == 200
     assertTemplateUsed(response, 'profiles/index.html')
+    assert assertion_check == soup_content[0].get_text()
 
 
 @pytest.mark.django_db
@@ -30,13 +36,12 @@ def test_profile_view():
     profile_for_test.favorite_city = 'paris'
     profile_for_test.save()
 
-    path = reverse('profile', kwargs={'username': 'test_user'})
+    path = reverse('profiles:profile', kwargs={'username': 'test_user'})
 
     response = client.get(path)
 
     soup = BeautifulSoup(response.content, features="html.parser")
     soup_content = soup.find_all("h1")
-    print(soup_content)
 
     assertion_check = 'test_user'
 

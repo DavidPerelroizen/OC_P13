@@ -11,16 +11,16 @@ def test_profile_url():
     profile_for_test.user = user_for_test
     profile_for_test.favorite_city = 'paris'
 
-    path = reverse('profile', kwargs={'username': 'test_user'})
+    path = reverse('profiles:profile', kwargs={'username': 'test_user'})
 
     assert path == '/profiles/test_user/'
-    assert resolve(path).view_name == 'profile'
+    assert resolve(path).view_name == 'profiles:profile'
 
 
 @pytest.mark.django_db
 def test_profiles_index_url():
 
-    path = reverse('profiles_index')
+    path = reverse('profiles:index')
 
     assert path == '/profiles/'
-    assert resolve(path).view_name == 'profiles_index'
+    assert resolve(path).view_name == 'profiles:index'
