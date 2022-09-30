@@ -35,7 +35,7 @@ jobs:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
     environment:
-      IMAGETAG: echo "<< pipeline.git.base_revision >>"
+      IMAGETAG: << pipeline.git.base_revision >>
     steps:
       - checkout
       - setup_remote_docker
@@ -48,8 +48,7 @@ jobs:
           name: Push Docker image to Docker Hub
           command: |
             docker login -p $DOCKERHUB_PASSWORD -u $DOCKERHUB_USERNAME
-            echo "<< pipeline.git.base_revision >>"
-            docker tag $IMAGETAG davidperelroizen/oc-lettings-site-docker-build:latest
+            docker tag oc-lettings-site-docker-build:latest davidperelroizen/oc-lettings-site-docker-build:$IMAGETAG
             docker push davidperelroizen/oc-lettings-site-docker-build:$IMAGETAG
 
   heroku_deploy:
