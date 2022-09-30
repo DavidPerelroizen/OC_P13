@@ -49,7 +49,7 @@ jobs:
           command: |
             docker login -p $DOCKERHUB_PASSWORD -u $DOCKERHUB_USERNAME
             echo "<< pipeline.git.base_revision >>"
-            docker tag davidperelroizen/oc-lettings-site-docker-build:$IMAGETAG
+            docker tag $IMAGETAG davidperelroizen/oc-lettings-site-docker-build:latest
             docker push davidperelroizen/oc-lettings-site-docker-build:$IMAGETAG
 
   heroku_deploy:
