@@ -75,3 +75,97 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+## Déploiement
+
+### Explication générale
+
+Le déploiement est le résultat d'une succession d'étapes permettant la mise en service d'une application.
+Principales étapes:
+1. Compilation du code
+2. Tests
+3. Création de l'artefact
+4. Mise en service finale
+
+Le principe est de mettre en place de manière continue les différentes modifications, améliorations, nouveautés du code
+tout en en assurant la qualité: chaque étape est dépendante de la validation de la précédente.
+
+Ici nous utilisons CircleCi pour gérer cette succession d'étapes (pipeline), Docker pour la création de l'artefact, 
+et Heroku pour la mise en service de l'application.
+
+### Configuration Docker
+
+1. Créer un compte docker sur hub.docker.com
+2. Installer docker desktop et connecter l'application à votre compte docker hub
+
+### Configuration CircleCi
+
+1. Copier le code de l'application dans votre repository Github ou Bitbucket
+2. Se connecter à CircleCi avec son compte Github ou Bitbucket
+3. Une fois connecté à CircleCi, cliquer sur "Projects" dans le menu de la barre de gauche
+4. Sélectionner le repository contenant le code de l'application
+5. Cliquer sur `Set-up project`
+6. Sélectionner l'option `Fastest` de la pop-up, cela permettra d'utiliser le fichier config.yml déjà présent dans le repository
+7. Aller dans projects settings et ajouter les deux variables d'environnement suivantes:
+   a. DOCKERHUB_PASSWORD: votre mot de passe dockerhub 
+   b. DOCKERHUB_USERNAME: votre username dockerhub
+
+### Configuration Heroku
+
+1. Créer un compte sur Heroku
+2. Créer une nouvelle application
+3. Dans le fichier `settings.py` remplacer oc-lettings-111 par le nom de votre app heroku dans le code ci-dessous:
+    ```bash
+   if IS_HEROKU:
+    ALLOWED_HOSTS = ['oc-lettings-111.herokuapp.com']
+    ```
+4. Sur Heroku, aller dans Accounts settings>API Key> Reveal
+5. Copier cette clé puis aller dans les variables d'environnement de CircleCi
+6. Créer une nouvelle variable d'environnement `HEROKU_API_KEY`
+7. Coller la clé copiée
+8. Créer également dans Circleci une variable d'environnement `HEROKU_APP_NAME` et renseigner le nom de votre application heroku
+
+### Heroku postgresql configuration
+
+1. Dans votre application sur Heroku, cliquer sur `Ressources`
+2. Sélectionner la base de donnée postgresql
+3. Cliquer sur `Settings`
+4. Cliquer sur `View credentials`
+5. Reporter les différentes valeurs dans le fichier `settings.py` de l'application django dans le code ci-dessous:
+   ```bash
+   else:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'heroku db name',
+            'USER': 'herok db user',
+            'PASSWORD': 'heroku db password',
+            'HOST': 'heroku db host',
+            'PORT': 'herolu db port',
+        }
+    }
+    ```
+### Migration des données vers la base heroku
+
+1. Dans `settings.py` commenter les lignes ci-dessous:
+   ```bash
+   if not IS_HEROKU:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
+        }
+    }
+    else:
+   ```
+2. Exécuter successivement les commandes ci-dessous dans le terminal:
+   `python manage.py makemigrations`
+   `python manage.py makemigrations`
+   `python manage.py loaddata user.json`
+   `python manage.py loaddata profiles.json`
+   `python manage.py loaddata address.json`
+   `python manage.py loaddata lettings.json`
+3. Décommenter les lignes commentées à l'étape 1
+
+La base Postgresql Heroku est prête à l'usage. 
