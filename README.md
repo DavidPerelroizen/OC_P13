@@ -169,3 +169,44 @@ et Heroku pour la mise en service de l'application.
 3. Décommenter les lignes commentées à l'étape 1
 
 La base Postgresql Heroku est prête à l'usage. 
+
+## Lancer le site
+
+### En local
+
+Dans le terminal, exécuter la commande `python manage.py runserver` et se connecter à l'URL http://127.0.0.1:8000/
+
+### Sur Heroku
+
+Se connecter à son compte Heroku, ouvrir la page de l'application, cliquer sur `Open app`
+
+### Via docker desktop
+
+1. Ouvrir docker desktop
+2. Sélectionner l'image de l'application et effectuer un pull pour en avoir la dernière version
+3. Cliquer sur `Run`
+4. Dans les "Optional settings", renseigner 8000 en tant que "Host Port"
+5. Cliquer sur `Run`
+6. Une fois le container lancé, aller dans les "Action" et cliquer sur "Open with browser"
+
+## Surveillance de l'application via Sentry
+
+### Configuration
+
+1. Créer un compte sur Sentry
+2. Créer un projet
+3. Récupérer la clé DSN du projet
+4. Dans `settings.py` coller la clé dsn du projet dans le code ci-dessous:
+    ```bash
+   sentry_sdk.init(
+    dsn="la clé DSN de votre projet",
+   # ...
+   )
+    ```
+
+### Test
+
+1. Exécuter l'application via heroku
+2. Rentrer l'URL `https://<votre application>.herokuapp.com/sentry-debug/` dans le navigateur
+3. Une erreur 500 se produit
+4. Une issue apparaît dans votre projet sentry
