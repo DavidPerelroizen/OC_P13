@@ -107,8 +107,8 @@ et Heroku pour la mise en service de l'application.
 5. Cliquer sur `Set-up project`
 6. Sélectionner l'option `Fastest` de la pop-up, cela permettra d'utiliser le fichier config.yml déjà présent dans le repository
 7. Aller dans projects settings et ajouter les deux variables d'environnement suivantes:
-   a. DOCKERHUB_PASSWORD: votre mot de passe dockerhub 
-   b. DOCKERHUB_USERNAME: votre username dockerhub
+   a. **DOCKERHUB_PASSWORD**: votre mot de passe dockerhub 
+   b. **DOCKERHUB_USERNAME**: votre username dockerhub
 
 ### Configuration Heroku
 
@@ -160,12 +160,14 @@ et Heroku pour la mise en service de l'application.
     else:
    ```
 2. Exécuter successivement les commandes ci-dessous dans le terminal:
-   `python manage.py makemigrations`
-   `python manage.py makemigrations`
-   `python manage.py loaddata user.json`
-   `python manage.py loaddata profiles.json`
-   `python manage.py loaddata address.json`
-   `python manage.py loaddata lettings.json`
+   - `python manage.py makemigrations`
+   - `python manage.py migrate`
+   - `python manage.py loaddata user.json`
+   - `python manage.py loaddata profiles.json`
+   - `python manage.py loaddata address.json`
+   - `python manage.py loaddata lettings.json`
+
+
 3. Décommenter les lignes commentées à l'étape 1
 
 La base Postgresql Heroku est prête à l'usage. 
@@ -188,6 +190,17 @@ Se connecter à son compte Heroku, ouvrir la page de l'application, cliquer sur 
 4. Dans les "Optional settings", renseigner 8000 en tant que "Host Port"
 5. Cliquer sur `Run`
 6. Une fois le container lancé, aller dans les "Action" et cliquer sur "Open with browser"
+
+
+### Via docker sur le terminal
+
+1. Ouvrir le terminal
+2. Lancer la commande `docker start`
+3. Puis trouver sur docker hub, la version de l'image que le souhaite lancer
+4. De retour sur le terminal, exécuter la commande `docker run -p 8000:8000 <docker-image>`
+5. Ouvrir un navigateur
+6. Se connecter à l'URL http://127.0.0.1:8000/
+
 
 ## Surveillance de l'application via Sentry
 
