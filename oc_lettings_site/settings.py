@@ -22,7 +22,7 @@ else:
 
 # Enable different host depending on where the program is executed
 if IS_HEROKU:
-    ALLOWED_HOSTS = ['oc-lettings-111.herokuapp.com']
+    ALLOWED_HOSTS = ['oc-lettings-site-111.herokuapp.com']
 else:
     ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 
