@@ -18,7 +18,7 @@ SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
 if not IS_HEROKU:
     DEBUG = True
 else:
-    DEBUG = True
+    DEBUG = False
 
 # Enable different host depending on where the program is executed
 if IS_HEROKU:
@@ -77,6 +77,7 @@ WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
 if not IS_HEROKU:
     DATABASES = {
         'default': {
@@ -88,8 +89,12 @@ else:
 
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'd8g5185osfgj91',
+            'USER': 'bibzkafebrynxn',
+            'PASSWORD': '51039b45321ee295afe86a7e037db61709413724dd301bdf8a824e5c3a600218',
+            'HOST': 'ec2-52-208-164-5.eu-west-1.compute.amazonaws.com',
+            'PORT': '5432',
         }
     }
 
