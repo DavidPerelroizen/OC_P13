@@ -18,7 +18,7 @@ SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
 if not IS_HEROKU:
     DEBUG = True
 else:
-    DEBUG = False
+    DEBUG = True
 
 # Enable different host depending on where the program is executed
 if IS_HEROKU:
